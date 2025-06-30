@@ -154,10 +154,34 @@ public class MessageService {
             LocalDateTime createdLocalTime = LocalDateTime.ofInstant(result.getCreatedDate().toInstant(), ZoneId.systemDefault());
             // 時間差分を計算
             long diffInMilliseconds = ChronoUnit.MILLIS.between(createdLocalTime, now);
-            // 時間を分に計算
-            long diffInMinutes = diffInMilliseconds / (60 * 1000);
-            message.setDiffDate(diffInMinutes);
 
+            long diff;
+            int diffNum;
+            String diffUnit;
+
+            if (diffInMilliseconds >= 86400000){
+                diffNum = 86400;
+                diffUnit = "日前";
+            }
+            else if (diffInMilliseconds >= 3600000){
+                // 時間を時間に変更
+                diffNum = 3600;
+                diffUnit = "時間前";
+            }
+            else if (diffInMilliseconds >= 60000){
+                diffNum = 60;
+                diffUnit = "分前";
+            }
+            else {
+                diffNum = 1;
+                diffUnit = "秒前";
+            }
+
+            // 時間を分に変更
+            diff = diffInMilliseconds / (diffNum * 1000);
+
+            message.setDiffDate(diff);
+            message.setDiffDateUnit(diffUnit);
 
             messages.add(message);
         }

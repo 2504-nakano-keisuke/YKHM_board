@@ -28,6 +28,8 @@ public class UserMessageForm {
 
     private long diffDate;
 
+    private String diffDateUnit;
+
     private Date createdDate;
 
     private Date updatedDate;
