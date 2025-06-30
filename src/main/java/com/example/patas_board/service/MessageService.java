@@ -13,6 +13,10 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -144,6 +148,16 @@ public class MessageService {
             message.setBranchId(result.getUser().getBranchId());
             message.setDepartmentId(result.getUser().getDepartmentId());
             message.setCreatedDate(result.getCreatedDate());
+            // 現在時刻
+            LocalDateTime now = LocalDateTime.now();
+            // LocalDateTimeに変換
+            LocalDateTime createdLocalTime = LocalDateTime.ofInstant(result.getCreatedDate().toInstant(), ZoneId.systemDefault());
+            // 時間差分を計算
+            long diffInMilliseconds = ChronoUnit.MILLIS.between(createdLocalTime, now);
+            // 時間を分に計算
+            long diffInMinutes = diffInMilliseconds / (60 * 1000);
+            message.setDiffDate(diffInMinutes);
+
 
             messages.add(message);
         }
