@@ -26,6 +26,8 @@ public class UserMessageForm {
 
     private int departmentId;
 
+    private long diffDate;
+
     private Date createdDate;
 
     private Date updatedDate;
